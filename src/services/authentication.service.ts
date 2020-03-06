@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Usuario } from 'src/app/ingreso/model/Usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,10 @@ export class AuthenticationService {
   }
 
   login(username, password) {
-      return this.http.post<any>(`http://localhost:8080/loguinLan`, { username, password })
-          .pipe(map(user => {
-              // store user details and jwt token in local storage to keep user logged in between page refreshes
-              localStorage.setItem('currentUser', JSON.stringify(user));
-              this.currentUserSubject.next(user);PerfWidgetExternal
-              return user;
-          }));
+   let usuario = new Usuario();
+   usuario.password = password;
+   usuario.username = username;
+      return this.http.post<any>(`http://localhost:8080/loguinLan`, usuario);
   }
 
   logout() {

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/services/authentication.service';
+import { Usuario } from './model/Usuario';
 @Component({
   selector: 'app-ingreso',
   templateUrl: './ingreso.component.html',
@@ -35,7 +36,7 @@ export class IngresoComponent implements OnInit {
         });
 
         // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'success';
     }
 
     // convenience getter for easy access to form fields
@@ -57,8 +58,8 @@ export class IngresoComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.error = error;
-                    this.loading = true;
+                    this.error = 'Ocurrio un error al intentar ingresar al sitio';
+                    this.loading = false;
                 });
     }
 
